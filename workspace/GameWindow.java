@@ -205,7 +205,14 @@ public class GameWindow {
                 		
                 		// this is the only section you really need to modify (although you're certainly welcome to mess
                 		//with the rest of the file, but do so at your own peril)
-                        " <<<<<<<<<<<<<<<Your instructions go here>>>>>>>>>",
+                        " Chess is played on a square board with 64 squares, alternating between light and dark.\r\n" + //
+                                                        "1\r\n" + //
+                                                        "Each player controls an army of 16 pieces: a king, a queen, two rooks, two bisknights, two bishops, and eight pawns.\r\n" + //
+                                                        "1\r\n" + //
+                                                        "The objective is to checkmate your opponent's king, putting it in a position where it cannot escape capture. The bisknight has a unqiue gimmic, it can move like a normal knight anywhere.  \r\n" + //
+                                                        "1\r\n" + //
+                                                        " but it also gains the abibity to go backwards like a bishop. The game can end in three ways: checkmate, stalemate, or a draw.\r\n" + //
+                                                        "",
                         
                         
                         
