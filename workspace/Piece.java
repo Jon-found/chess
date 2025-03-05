@@ -95,6 +95,7 @@ public class Piece {
 //Postconditions: The function returns all valid moves for the piece. Illegal moves (out of bounds, moving through pieces incorrectly, etc.) are excluded. Special moves (castling, en passant, pawn promotion) are handled if applicable.
 
     // Returns an arraylist of legal moves for the bisknight
+    //the "bisknight" can move like a normnal knight all the time but it also has the ability to move backwards like a bishop additonally 
     public ArrayList<Square> getLegalMoves(Board b, Square start) {
         ArrayList<Square> moves = new ArrayList<>();
         int row = start.getRow();

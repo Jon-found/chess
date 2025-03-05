@@ -193,7 +193,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         // Get all legal moves for the current piece
         ArrayList<Square> legalMoves = currPiece.getLegalMoves(this, fromMoveSquare);
     
-        // Manually check if endSquare is a legal move using a standard loop
+        // Manually check if endSquare is a legal move
         boolean isLegalMove = false;
         for (int i = 0; i < legalMoves.size(); i++) {
             if (legalMoves.get(i) == endSquare) {
