@@ -1,4 +1,7 @@
-
+//Jonathan Koushan, pd 1, 3/6/25
+//makes a board and places them onto the board with vizuals, highlights moves and should move the piece to the desired location only if this is a legal move.
+    //use the pieces "legal move" function to determine if this move is legal, then complete it by
+    //moving the new piece to it's new board location. 
 
 import java.awt.Color;
 import java.awt.Dimension;

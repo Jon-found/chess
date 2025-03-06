@@ -1,4 +1,5 @@
-//pawn bishop
+//Jonathan Koushan, pd 1, 3/6/25
+//Implements an piece, gets location infoamtion, how it can move and how it does move
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -74,14 +75,14 @@ public class Piece {
             // Prevent forward bishop moves
             boolean isWhite = this.color;
             if ((isWhite && rowMoves[i] > 0) || (!isWhite && rowMoves[i] < 0)) {
-                continue;
+                continue;//skips a loop 
             }
 
             while (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
                 controlledSquares.add(board[newRow][newCol]);
 
                 if (board[newRow][newCol].isOccupied()) {
-                    break; // Stop if another piece is blocking
+                    break; // Stop if another piece is blocking, exits loop 
                 }
 
                 newRow += rowMoves[i];
@@ -108,7 +109,7 @@ public class Piece {
             {-1, -2}, {-1, 2}, {1, -2}, {1, 2}
         };
 
-        for (int i = 0; i < knightMoves.length; i++) {
+        for (int i = 0; i < knightMoves.length; i++) { //checks every knight move in knightmoves 
             int newRow = row + knightMoves[i][0];
             int newCol = col + knightMoves[i][1];
 
@@ -130,7 +131,7 @@ public class Piece {
 
             boolean isWhite = this.color;
             if ((isWhite && rowMoves[i] > 0) || (!isWhite && rowMoves[i] < 0)) {
-                continue;
+                continue; //skips a loop 
             }
 
             while (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
