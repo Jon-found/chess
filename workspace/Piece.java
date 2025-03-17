@@ -1,5 +1,6 @@
 //Jonathan Koushan, pd 1, 3/6/25
 //Implements an piece, gets location infoamtion, how it can move and how it does move
+ //the "bisknight" can move like a normnal knight all the time but it also has the ability to move backwards like a bishop additonally 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
