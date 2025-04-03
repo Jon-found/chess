@@ -1,118 +1,59 @@
-//Name: Anthony
-//Piece: Pawn
-//Description: Can move one square forward, or two squares if on the starting
-
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import javax.imageio.ImageIO;
-//you will need to implement two functions in this file.
-public class Pawn extends Piece{
-public Pawn(boolean isWhite, String img_file) {
-super (isWhite, img_file);
-}
-// TO BE IMPLEMENTED!
-//return a list of every square that is "controlled" by this piece. A square is
 
-//if the piece capture into it legally.
-//Pre-Condition: Takes into two argument, the board itself alongside the
+public class Pawn extends Piece {
+    public Pawn(boolean isWhite, String img_file) {
+        super(isWhite, img_file);
+    }
 
-//Post-condition: Returns a list of tiles which the piece we are currently
+    @Override
+    public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
+        ArrayList<Square> controlledSquares = new ArrayList<>();
+        int row = start.getRow();
+        int col = start.getCol();
+        int direction = isWhite() ? 1 : -1;
 
-public ArrayList<Square> getControlledSquares(Square [][] board, Square start)
-{
-ArrayList<Square> tile = new ArrayList<Square>();
-if (isWhite() == false){
-if(start.getCol() != 7){
-tile.add(board[start.getRow() - 1][start.getCol() + 1]);
-}
-if (start.getCol() != 0){
-tile.add(board[start.getRow() - 1][start.getCol() - 1]);
-}
-}
-if (isWhite() == true){
-if(start.getCol() != 7){
-tile.add(board[start.getRow() + 1][start.getCol() + 1]);
-}
-if (start.getCol() != 0){
-tile.add(board [start.getRow() + 1][start.getCol() - 1]);
-}
-}
-return tile;
-}
-//TO BE IMPLEMENTED!
-//implement the move function here
-//it's up to you how the piece moves, but at the very least the rules should be
+        if (col > 0) {
+            controlledSquares.add(board[row + direction][col - 1]);
+        }
+        if (col < 7) {
+            controlledSquares.add(board[row + direction][col + 1]);
+        }
+        return controlledSquares;
+    }
 
-//returns an arraylist of squares which are legal to move to
-//please note that your piece must have some sort of logic. Just being able to
+    @Override
+    public ArrayList<Square> getLegalMoves(Board b, Square start) {
+        ArrayList<Square> legalMoves = new ArrayList<>();
+        Square[][] board = b.getSquareArray();
+        int row = start.getRow();
+        int col = start.getCol();
+        int direction = isWhite() ? 1 : -1;
 
-//going to score any points.
-//Pre-Condition: Takes in the board itself, alongside the starting square of
+        // One step forward
+        if (board[row + direction][col] != null && !board[row + direction][col].isOccupied()) {
+            legalMoves.add(board[row + direction][col]);
+        }
+       
+        // Two steps forward from start position
+        if ((isWhite() && row == 1) || (!isWhite() && row == 6)) {
+            if (!board[row + direction][col].isOccupied() && !board[row + 2 * direction][col].isOccupied()) {
+                legalMoves.add(board[row + 2 * direction][col]);
+            }
+        }
 
-//Post-Condition: Will return a list of legal moves, which from the current
+        // Capturing diagonally
+        if (col > 0 && board[row + direction][col - 1].isOccupied() && board[row + direction][col - 1].getOccupyingPiece().isWhite() != isWhite()) {
+            legalMoves.add(board[row + direction][col - 1]);
+        }
+        if (col < 7 && board[row + direction][col + 1].isOccupied() && board[row + direction][col + 1].getOccupyingPiece().isWhite() != isWhite()) {
+            legalMoves.add(board[row + direction][col + 1]);
+        }
 
-public ArrayList<Square> getLegalMoves(Board b, Square start){
-ArrayList<Square> tile = new ArrayList<Square>();
-if(isWhite() == false){
-//if moving for the first time
-int potential = start.getRow();
-potential = potential - 1;
-if(b.getSquareArray()[potential][start.getCol()].isOccupied() == false){
-tile.add(b.getSquareArray()[potential][start.getCol()]);
-}
-if (start.getRow() == 6){
-potential = potential - 1;
-if(b.getSquareArray()[potential][start.getCol()].isOccupied() == false){
-tile.add(b.getSquareArray()[potential][start.getCol()]);
-}
-}
-if (start.getCol() != 0 && b.getSquareArray()[start.getRow() - 1]
-[start.getCol() - 1].isOccupied() && b.getSquareArray()[start.getRow() - 1]
-[start.getCol() - 1].getOccupyingPiece().isWhite() == false) {
-tile.add(b.getSquareArray()[start.getRow() - 1][start.getCol() - 1]);
-}
-if (start.getCol() != 7 && b.getSquareArray()[start.getRow() - 1]
-[start.getCol() + 1].isOccupied() && b.getSquareArray()[start.getRow() - 1]
-[start.getCol() + 1].getOccupyingPiece().isWhite() == false) {
-tile.add(b.getSquareArray()[start.getRow() - 1][start.getCol() + 1]);
-}
-}
-if(isWhite() == true){
-//if moving for the first time
-int potential = start.getRow();
-potential = potential + 1;
-if(b.getSquareArray()[potential][start.getCol()].isOccupied() == false){
-tile.add(b.getSquareArray()[potential][start.getCol()]);
-}
-if (start.getRow() == 1){
-potential = potential + 1;
-if(b.getSquareArray()[potential][start.getCol()].isOccupied() == false){
-tile.add(b.getSquareArray()[potential][start.getCol()]);
-}
-}
-if (start.getCol() != 0 && b.getSquareArray()[start.getRow() + 1]
-[start.getCol() - 1].isOccupied() && b.getSquareArray()[start.getRow() + 1]
-[start.getCol()- 1].getOccupyingPiece().isWhite() == true) {
-tile.add(b.getSquareArray()[start.getRow() + 1][start.getCol() - 1]);
-}
-if (start.getCol() != 7 && b.getSquareArray()[start.getRow() + 1]
-[start.getCol() + 1].isOccupied() && b.getSquareArray()[start.getRow() + 1]
-[start.getCol() + 1].getOccupyingPiece().isWhite() == true) {
-tile.add(b.getSquareArray()[start.getRow() + 1][start.getCol() + 1]);
-}
-}
-return tile;
-}
-//Pre-condition: A pawn is moved
-//Post-condtion: Returns a string, stating the color of the pawn which just
+        return legalMoves;
+    }
 
-public String toString(){
-return "A " + isWhite() + " pawn";
-}
+    @Override
+    public String toString() {
+        return (isWhite() ? "White" : "Black") + " Pawn";
+    }
 }
