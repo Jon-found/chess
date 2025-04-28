@@ -176,12 +176,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     
         if (currPiece == null || fromMoveSquare == null) return;
     
-        // Prevents moving if it's not the player's turn
         if ((whiteTurn && !currPiece.isWhite()) || (!whiteTurn && currPiece.isWhite())) return;
     
         ArrayList<Square> legalMoves = currPiece.getLegalMoves(this, fromMoveSquare);
         boolean isLegalMove = false;
-        
+    
         for (Square move : legalMoves) {
             if (move == endSquare) {
                 isLegalMove = true;
@@ -189,43 +188,32 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             }
         }
     
-        // Save the current board state
         Piece capturedPiece = null;
-        if (isLegalMove && endSquare != null && endSquare.isOccupied()) {
-            capturedPiece = endSquare.getOccupyingPiece();
-        }
+        boolean moved = false;
     
         if (isLegalMove) {
+            if (endSquare.isOccupied()) {
+                capturedPiece = endSquare.getOccupyingPiece();
+            }
             fromMoveSquare.removePiece();
             endSquare.put(currPiece);
     
-            // If the move puts own king in check, undo the move
+            // If move puts own king in check, undo
             if (isInCheck(currPiece.isWhite())) {
                 endSquare.removePiece();
                 fromMoveSquare.put(currPiece);
                 if (capturedPiece != null) {
                     endSquare.put(capturedPiece);
                 }
-                return;
+            } else {
+                moved = true;
+                whiteTurn = !whiteTurn;
             }
-    
-            whiteTurn = !whiteTurn;
-        } else {
-            fromMoveSquare.put(currPiece);
         }
     
-        // Ensure the player moves out of check
-        if (isInCheck(!whiteTurn)) {
-            System.out.println("You must move out of check!");
-            endSquare.removePiece();
-            fromMoveSquare.put(currPiece);
-            if (capturedPiece != null) {
-                endSquare.put(capturedPiece);
-            }
-            return;
-        }
+      
     
-        // Clear borders
+      
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 board[i][j].setBorder(null);
@@ -238,6 +226,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     
         repaint();
     }
+    
+
+
     
        
 // Precondition: The board is initialized and contains a king of either color
